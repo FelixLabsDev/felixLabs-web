@@ -1,0 +1,11 @@
+{
+  "name": "felix-labs-mailer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "nodemailer": "^10.1.0"
+  }
+}

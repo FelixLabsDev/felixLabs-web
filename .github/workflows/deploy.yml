@@ -1,0 +1,58 @@
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+env:
+  DEPLOY_DIR: projects/Felix Labs/deploy
+  APP_DIR: /opt/felixlabs
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build site
+        run: node "$DEPLOY_DIR/build.mjs"
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+
+      - name: Configure SSH
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          printf 'Host server\n  HostName %s\n  User %s\n  Port %s\n  IdentityFile ~/.ssh/deploy_key\n' "$SSH_HOST" "$SSH_USER" "$SSH_PORT" > ~/.ssh/config
+
+      - name: Upload
+        run: |
+          rsync -az --delete --exclude node_modules "$DEPLOY_DIR/mailer/" "server:$APP_DIR/mailer/"
+          rsync -az "$DEPLOY_DIR/docker-compose.yml" "$DEPLOY_DIR/Caddyfile" "server:$APP_DIR/"
+          rsync -az --delete --delay-updates "$DEPLOY_DIR/dist/" "server:$APP_DIR/site/"
+
+      - name: Restart services
+        run: ssh server "set -e; cd $APP_DIR; test -f .env || { echo 'Missing $APP_DIR/.env on the server'; exit 1; }; docker compose up -d --build --remove-orphans; docker compose exec -T caddy caddy reload --config /etc/caddy/Caddyfile; docker image prune -f"
+
+      - name: Check the live site
+        if: vars.SITE_URL != ''
+        run: |
+          curl -fsS --retry 10 --retry-delay 3 --retry-all-errors -o /dev/null "${{ vars.SITE_URL }}/"
+          curl -fsS "${{ vars.SITE_URL }}/api/health"

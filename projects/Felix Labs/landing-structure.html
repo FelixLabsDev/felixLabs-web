@@ -8,10 +8,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Felix Labs</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=Montserrat:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+  <title>Felix Labs — AI sales agents</title>
+  <meta name="description" content="Launch your AI sales agent in 5 minutes. It responds to your clients 24/7, never loses a single lead, and books qualified meetings into your CRM.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="{{SITE_URL}}/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Felix Labs">
+  <meta property="og:title" content="Felix Labs — AI sales agents">
+  <meta property="og:description" content="Launch your AI sales agent in 5 minutes. It responds to your clients 24/7 and never loses a single lead.">
+  <meta property="og:url" content="{{SITE_URL}}/">
+  <meta property="og:image" content="{{SITE_URL}}/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preload" href="assets/vendor/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/vendor/fonts/fonts.css">
   <style>
     :root {
       --color-canvas: #010204; /* fill of Website frames in the dump */
@@ -73,6 +84,7 @@
     p { margin: 0; }
     ul, ol { margin: 0; padding: 0; list-style: none; }
     :focus-visible { outline: var(--focus); outline-offset: 3px; }
+    [hidden] { display: none !important; }
 
     .sr-only {
       position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
@@ -1456,7 +1468,7 @@
     .consult {
       position: relative;
       display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); align-items: stretch;
-      height: 498px; border-radius: 32px; padding: var(--space-xl); overflow: hidden;
+      min-height: 498px; border-radius: 32px; padding: var(--space-xl); overflow: hidden;
       background: rgba(14, 17, 37, 0.5);
     }
     .consult::before {
@@ -1506,6 +1518,11 @@
     .field-box input:focus, .field-box input:focus-visible,
     .field-box textarea:focus, .field-box textarea:focus-visible { outline: none; }
     .field-box input::placeholder, .field-box textarea::placeholder { color: rgba(255, 255, 255, 0.5); }
+    .field-box.field-box-message { height: auto; min-height: 56px; padding-block: var(--space-m); align-items: flex-start; }
+    .field-box.field-box-message textarea { height: auto; min-height: 24px; max-height: 120px; overflow-y: auto; field-sizing: content; }
+    .consult-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .consult-error { font-size: 14px; color: var(--color-accent-light); }
+    .cta:disabled { opacity: 0.6; cursor: progress; }
     .consult .cta-secondary {
       width: 100%; height: 56px; border: 0; border-radius: 50px;
       overflow: hidden;
@@ -2029,6 +2046,8 @@
       .field-box { height: 48px; }
       .field-icon { width: 20px; height: 20px; filter: none; }
       .field-box input, .field-box textarea { font-size: 16px; height: 20px; line-height: 20px; }
+      .field-box.field-box-message { min-height: 48px; padding-block: 14px; }
+      .field-box.field-box-message textarea { height: auto; min-height: 20px; }
       .consult .cta-secondary,
       .consult-dialog-card .cta-secondary { height: 48px; font-size: 15px; }
       .nl-bar input { font-size: 16px; }
@@ -2084,21 +2103,15 @@
           <li><a class="is-active" href="#hero" data-i18n="nav.home">Home</a></li>
           <li><a href="#use-cases" data-i18n="nav.useCases">Use Cases</a></li>
           <li><a href="#integrations" data-i18n="nav.integrations">Integrations</a></li>
-          <li><a href="#about" data-i18n="nav.about">About Us</a></li>
+          <li><a href="#about" data-i18n="nav.about">FAQ</a></li>
         </ul>
         <div class="nav-extra">
-          <ul class="social nav-social">
-            <li><a class="stroke" href="#" aria-label="Instagram"><img src="assets/social/instagram.svg" alt="" width="31" height="31"></a></li>
-            <li><a class="stroke" href="#" aria-label="Facebook"><img src="assets/social/facebook.svg" alt="" width="31" height="31"></a></li>
-            <li><a class="stroke" href="#" aria-label="LinkedIn"><img src="assets/social/linkedin.svg" alt="" width="31" height="31"></a></li>
-            <li><a class="stroke" href="#" aria-label="Discord"><img src="assets/social/discord.svg" alt="" width="31" height="31"></a></li>
-          </ul>
           <div class="lang" id="lang-switcher" role="radiogroup" data-lang="en" data-i18n-aria="lang.group" aria-label="Language">
             <span class="lang-slider" aria-hidden="true"></span>
             <button class="lang-btn" type="button" role="radio" data-lang="en" aria-checked="true" data-i18n-aria="lang.en" aria-label="English">ENG</button>
             <button class="lang-btn" type="button" role="radio" data-lang="he" aria-checked="false" data-i18n-aria="lang.he" aria-label="Hebrew">עב</button>
           </div>
-          <a class="cta cta-primary" href="#consult"><span class="cta-label" data-i18n="cta.tryItOut">Try it out</span><span class="cta-glass" aria-hidden="true"><span class="cta-orb"></span></span></a>
+          <a class="cta cta-primary" href="#consult"><span class="cta-label" data-i18n="cta.tryItOut">Book a call</span><span class="cta-glass" aria-hidden="true"><span class="cta-orb"></span></span></a>
         </div>
       </nav>
       <div class="header-actions">
@@ -2118,7 +2131,7 @@
       </div>
     </section>
     <figure class="hero-shot stroke">
-      <video class="media hero-shot-media" poster="Screens/Overview%201.png" autoplay muted playsinline preload="auto" aria-label="Felix Labs overview dashboard">
+      <video class="media hero-shot-media" poster="Screens/Overview%201.webp" autoplay muted playsinline preload="auto" aria-label="Felix Labs overview dashboard">
         <source src="assets/hero/Overview.mp4" type="video/mp4">
       </video>
     </figure>
@@ -2396,10 +2409,10 @@
               <div class="stat stroke"><span class="stat-value">+45%</span><span class="stat-label" data-i18n="use.support.s2">Customer Satisfaction</span></div>
             </div>
           </div>
-          <figure class="use-shot stroke"><img class="media" src="Design%20Assets/Chat_mockup.png" alt="Tech support chat on a phone"></figure>
+          <figure class="use-shot stroke"><img class="media" src="Design%20Assets/Chat_mockup.webp" alt="Tech support chat on a phone" loading="lazy" decoding="async"></figure>
         </li>
         <li class="use">
-          <figure class="use-shot stroke"><img class="media" src="Screens/Chat%20Inbox.png" alt="Med practice inbox and scheduling"></figure>
+          <figure class="use-shot stroke"><img class="media" src="Screens/Chat%20Inbox.webp" alt="Med practice inbox and scheduling" loading="lazy" decoding="async"></figure>
           <div class="use-copy">
             <div class="use-copy-top">
               <h3 data-i18n="use.med.title">Med practices rely on an AI secretary for bookings, sales, and patient records</h3>
@@ -2422,7 +2435,7 @@
               <div class="stat stroke"><span class="stat-value">-55%</span><span class="stat-label" data-i18n="use.hr.s2">Manual Handoffs</span></div>
             </div>
           </div>
-          <figure class="use-shot stroke"><img class="media" src="Screens/Overview.png" alt="HR pipeline overview and candidate statuses"></figure>
+          <figure class="use-shot stroke"><img class="media" src="Screens/Overview.webp" alt="HR pipeline overview and candidate statuses" loading="lazy" decoding="async"></figure>
         </li>
       </ul>
     </section>
@@ -2444,10 +2457,10 @@
       <div class="logo-marquee">
         <div class="logo-marquee-track">
           <ul class="logo-row">
-            <li><span class="logo-tile stroke"><img src="assets/integrations/gemini.png" alt="Gemini"></span></li>
+            <li><span class="logo-tile stroke"><img src="assets/integrations/gemini.webp" alt="Gemini" loading="lazy" decoding="async"></span></li>
             <li><span class="logo-tile stroke"><img src="assets/integrations/instagram.svg" alt="Instagram"></span></li>
             <li><span class="logo-tile stroke"><img src="assets/integrations/calendar.svg" alt="Google Calendar"></span></li>
-            <li><span class="logo-tile stroke"><img src="assets/integrations/code.png" alt="Code"></span></li>
+            <li><span class="logo-tile stroke"><img src="assets/integrations/code.webp" alt="Code" loading="lazy" decoding="async"></span></li>
             <li><span class="logo-tile stroke"><img src="assets/integrations/facebook.svg" alt="Facebook"></span></li>
             <li><span class="logo-tile stroke"><img src="assets/integrations/whatsapp.svg" alt="WhatsApp"></span></li>
             <li><span class="logo-tile stroke"><img src="assets/integrations/gmail.svg" alt="Gmail"></span></li>
@@ -2455,10 +2468,10 @@
             <li><span class="logo-tile stroke"><img src="assets/integrations/chatgpt.svg" alt="ChatGPT"></span></li>
           </ul>
           <ul class="logo-row" aria-hidden="true">
-            <li><span class="logo-tile stroke"><img src="assets/integrations/gemini.png" alt=""></span></li>
+            <li><span class="logo-tile stroke"><img src="assets/integrations/gemini.webp" alt="" loading="lazy" decoding="async"></span></li>
             <li><span class="logo-tile stroke"><img src="assets/integrations/instagram.svg" alt=""></span></li>
             <li><span class="logo-tile stroke"><img src="assets/integrations/calendar.svg" alt=""></span></li>
-            <li><span class="logo-tile stroke"><img src="assets/integrations/code.png" alt=""></span></li>
+            <li><span class="logo-tile stroke"><img src="assets/integrations/code.webp" alt="" loading="lazy" decoding="async"></span></li>
             <li><span class="logo-tile stroke"><img src="assets/integrations/facebook.svg" alt=""></span></li>
             <li><span class="logo-tile stroke"><img src="assets/integrations/whatsapp.svg" alt=""></span></li>
             <li><span class="logo-tile stroke"><img src="assets/integrations/gmail.svg" alt=""></span></li>
@@ -2496,7 +2509,7 @@
       </div>
       <div class="setup">
         <figure class="setup-shot">
-          <img src="assets/setup/iphone.png" alt="Login screen on a phone">
+          <img src="assets/setup/iphone.webp" alt="Login screen on a phone" loading="lazy" decoding="async">
         </figure>
         <div class="fold-list">
           <details class="fold stroke">
@@ -2569,7 +2582,16 @@
                 <input id="consult-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+1 555 000 0000" data-i18n-placeholder="ph.phone">
               </div>
             </div>
+            <div class="field">
+              <label for="consult-message" data-i18n="form.message">Message</label>
+              <div class="field-box field-box-message">
+                <img class="field-icon" src="assets/consult/icon-building.svg" alt="" width="24" height="24" aria-hidden="true">
+                <textarea id="consult-message" name="message" rows="1" maxlength="2000" placeholder="Tell us about your company" data-i18n-placeholder="ph.message"></textarea>
+              </div>
+            </div>
           </div>
+          <div class="consult-hp" aria-hidden="true"><label for="consult-website">Website</label><input id="consult-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <p class="consult-error" role="alert" hidden data-i18n="form.error">Something went wrong and your request wasn't sent. Please try again.</p>
           <button class="cta cta-secondary" type="submit"><span class="cta-label" data-i18n="form.submit">Submit</span></button>
           <div class="consult-success" hidden role="status">
             <div class="consult-success-mark" aria-hidden="true">
@@ -2596,7 +2618,7 @@
           <div class="quote-mark" aria-hidden="true"><img src="assets/reviews/quote.svg" alt="" width="80" height="80"></div>
           <blockquote data-i18n-html="reviews.q1">Since switching to Felix Labs, our response time <em>dropped from 4 hours to under 30 seconds</em>. We closed 38% more deals in Q1 alone — the <em>ROI paid for itself</em> in the first week.</blockquote>
           <div class="who">
-            <img class="avatar" src="assets/reviews/sarah.png" alt="" width="62" height="62">
+            <img class="avatar" src="assets/reviews/sarah.webp" alt="" width="62" height="62" loading="lazy" decoding="async">
             <span class="name">Sarah Mitchell</span>
             <span class="role" data-i18n="reviews.r1">VP of Sales, Arcline</span>
           </div>
@@ -2606,7 +2628,7 @@
           <div class="quote-mark" aria-hidden="true"><img src="assets/reviews/quote.svg" alt="" width="80" height="80"></div>
           <blockquote data-i18n-html="reviews.q2">We used to lose leads overnight. Now our <em>AI agent handles inquiries 24/7</em> and books qualified meetings directly <em>into our CRM</em>. Our pipeline has never been healthier.</blockquote>
           <div class="who">
-            <img class="avatar" src="assets/reviews/james.png" alt="" width="62" height="62">
+            <img class="avatar" src="assets/reviews/james.webp" alt="" width="62" height="62" loading="lazy" decoding="async">
             <span class="name">James Thornton</span>
             <span class="role" data-i18n="reviews.r2">CEO, BrightPath</span>
           </div>
@@ -2616,8 +2638,8 @@
           <div class="quote-mark" aria-hidden="true"><img src="assets/reviews/quote.svg" alt="" width="80" height="80"></div>
           <blockquote data-i18n-html="reviews.q3">The onboarding was effortless — we were live in under 10 minutes. Felix genuinely feels like adding a top-performing sales rep who <em>never takes a day off</em>.</blockquote>
           <div class="who">
-            <img class="avatar" src="assets/reviews/tsahi-2.png" alt="" width="62" height="62">
-            <span class="name">Tsahi …</span>
+            <img class="avatar" src="assets/reviews/tsahi-2.webp" alt="" width="62" height="62" loading="lazy" decoding="async">
+            <span class="name">Tsahi Turkeltaub</span>
             <span class="role" data-i18n="reviews.r3">Head of Growth, Kaledo</span>
           </div>
           <div class="quote-logo quote-logo-ilgcc">
@@ -2699,7 +2721,7 @@
           </div>
         </div>
         <figure class="demo-shot">
-          <img class="media" src="Screens/Login.png" alt="Sign-in screen beside the dashboard" width="952" height="677">
+          <img class="media" src="Screens/Login.webp" alt="Sign-in screen beside the dashboard" width="952" height="677" loading="lazy" decoding="async">
         </figure>
       </div>
     </section>
@@ -2707,19 +2729,13 @@
 
   <footer class="site-footer wrap">
     <div class="footer-top">
-      <div class="newsletter">
+      <div class="newsletter" hidden>
         <h3 data-i18n="footer.nl">Join our newsletter</h3>
         <form class="nl-bar" action="#" method="post">
           <label class="sr-only" for="nl-email" data-i18n="form.email">Email</label>
           <input id="nl-email" name="email" type="email" autocomplete="email" placeholder="johndoe@mail.ai" data-i18n-placeholder="ph.email">
           <button class="cta cta-secondary" type="submit"><span class="cta-label" data-i18n="footer.signup">Sign Up</span></button>
         </form>
-        <ul class="social">
-          <li><a class="stroke" href="#" aria-label="Instagram"><img src="assets/social/instagram.svg" alt="" width="31" height="31"></a></li>
-          <li><a class="stroke" href="#" aria-label="Facebook"><img src="assets/social/facebook.svg" alt="" width="31" height="31"></a></li>
-          <li><a class="stroke" href="#" aria-label="LinkedIn"><img src="assets/social/linkedin.svg" alt="" width="31" height="31"></a></li>
-          <li><a class="stroke" href="#" aria-label="Discord"><img src="assets/social/discord.svg" alt="" width="31" height="31"></a></li>
-        </ul>
       </div>
       <nav class="cols" aria-label="Footer" data-i18n-aria="footer.aria">
         <div>
@@ -2727,20 +2743,11 @@
           <ul>
             <li><a href="#consult" data-i18n="footer.contactLink">Contact</a></li>
             <li><a href="#consult" data-i18n="footer.book">Book a demo</a></li>
-            <li><a href="#about" data-i18n="footer.about">About us</a></li>
+            <li><a href="#about" data-i18n="footer.about">FAQ</a></li>
             <li><a href="#reviews" data-i18n="footer.reviews">Reviews</a></li>
-            <li><a href="#about" data-i18n="footer.team">Team</a></li>
           </ul>
         </div>
-        <div>
-          <h4 data-i18n="footer.tech">Technical</h4>
-          <ul>
-            <li><a href="#" data-i18n="footer.notes">Release Notes</a></li>
-            <li><a href="#" data-i18n="footer.status">Service Status</a></li>
-            <li><a href="#" data-i18n="footer.sitemap">Sitemap</a></li>
-          </ul>
-        </div>
-        <div>
+        <div hidden>
           <h4 data-i18n="footer.termsHead">Terms &amp; Conditions</h4>
           <ul>
             <li><a href="#" data-i18n="footer.terms">Terms &amp; Conditions</a></li>
@@ -2783,7 +2790,16 @@
               <input id="consult-dialog-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+1 555 000 0000" data-i18n-placeholder="ph.phone">
             </div>
           </div>
+          <div class="field">
+            <label for="consult-dialog-message" data-i18n="form.message">Message</label>
+            <div class="field-box field-box-message">
+              <img class="field-icon" src="assets/consult/icon-building.svg" alt="" width="24" height="24" aria-hidden="true">
+              <textarea id="consult-dialog-message" name="message" rows="1" maxlength="2000" placeholder="Tell us about your company" data-i18n-placeholder="ph.message"></textarea>
+            </div>
+          </div>
         </div>
+        <div class="consult-hp" aria-hidden="true"><label for="consult-dialog-website">Website</label><input id="consult-dialog-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <p class="consult-error" role="alert" hidden data-i18n="form.error">Something went wrong and your request wasn't sent. Please try again.</p>
         <button class="cta cta-secondary" type="submit"><span class="cta-label" data-i18n="form.submit">Submit</span></button>
         <div class="consult-success" hidden role="status">
           <div class="consult-success-mark" aria-hidden="true">
@@ -2799,7 +2815,7 @@
     </div>
   </dialog>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+  <script src="assets/vendor/lottie.min.js"></script>
   <script type="module" src="assets/why-us/side-rays.js"></script>
   <script>
     (function () {
@@ -3412,18 +3428,46 @@
         var success = form.querySelector(".consult-success");
         var title = form.querySelector(".consult-success h3");
         var reset = form.querySelector("[data-consult-reset]");
+        var error = form.querySelector(".consult-error");
+        var submit = form.querySelector('button[type="submit"]');
+        var message = form.querySelector("textarea");
+        var sending = false;
+        if (message && !(window.CSS && CSS.supports("field-sizing", "content"))) {
+          message.addEventListener("input", function () {
+            message.style.height = "auto";
+            message.style.height = message.scrollHeight + "px";
+          });
+        }
         form.addEventListener("submit", function (event) {
           event.preventDefault();
-          if (!form.reportValidity()) return;
-          form.classList.add("is-sent");
-          if (success) success.hidden = false;
-          if (title) title.focus();
+          if (sending || !form.reportValidity()) return;
+          sending = true;
+          if (submit) submit.disabled = true;
+          if (error) error.hidden = true;
+          var payload = Object.fromEntries(new FormData(form));
+          payload.lang = document.documentElement.lang;
+          payload.source = form.id;
+          fetch("/api/consult", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
+            .then(function (res) {
+              if (!res.ok) throw new Error("HTTP " + res.status);
+              form.classList.add("is-sent");
+              if (success) success.hidden = false;
+              if (title) title.focus();
+            })
+            .catch(function () {
+              if (error) error.hidden = false;
+            })
+            .finally(function () {
+              sending = false;
+              if (submit) submit.disabled = false;
+            });
         });
         if (reset) {
           reset.addEventListener("click", function () {
             form.classList.remove("is-sent");
             if (success) success.hidden = true;
             form.reset();
+            if (message) message.style.height = "";
             var first = document.getElementById(firstFieldId);
             if (first) first.focus();
           });
@@ -3453,10 +3497,10 @@
           "nav.home": "Home",
           "nav.useCases": "Use Cases",
           "nav.integrations": "Integrations",
-          "nav.about": "About Us",
+          "nav.about": "FAQ",
           "nav.menu": "Menu",
           "nav.close": "Close menu",
-          "cta.tryItOut": "Try it out",
+          "cta.tryItOut": "Book a call",
           "cta.getStarted": "Get Started Today",
           "cta.requestDemo": "Request a Demo",
           "hero.title": "Launch your AI sales agent in 5 minutes and double your conversion rate",
@@ -3529,6 +3573,7 @@
           "form.successTitle": "Request received",
           "form.successBody": "We'll email you shortly to schedule your consultation.",
           "form.successReset": "Send another request",
+          "form.error": "Something went wrong and your request wasn't sent. Please try again.",
           "eyebrow.reviews": "Reviews",
           "reviews.title": "Customer Reviews",
           "reviews.lede": "What customers say after switching to Felix Labs",
@@ -3558,7 +3603,7 @@
           "footer.contact": "Contact & About",
           "footer.contactLink": "Contact",
           "footer.book": "Book a demo",
-          "footer.about": "About us",
+          "footer.about": "FAQ",
           "footer.reviews": "Reviews",
           "footer.team": "Team",
           "footer.tech": "Technical",
@@ -3580,10 +3625,10 @@
           "nav.home": "בית",
           "nav.useCases": "מקרי שימוש",
           "nav.integrations": "אינטגרציות",
-          "nav.about": "עלינו",
+          "nav.about": "שאלות נפוצות",
           "nav.menu": "תפריט",
           "nav.close": "סגירת תפריט",
-          "cta.tryItOut": "נסו אותנו",
+          "cta.tryItOut": "קביעת שיחה",
           "cta.getStarted": "מתחילים היום",
           "cta.requestDemo": "בקשת הדגמה",
           "hero.title": "השיקו סוכן מכירות AI תוך 5 דקות והכפילו את שיעור ההמרה",
@@ -3656,6 +3701,7 @@
           "form.successTitle": "הבקשה התקבלה",
           "form.successBody": "ניצור קשר במייל בקרוב לקביעת הייעוץ.",
           "form.successReset": "שליחת בקשה נוספת",
+          "form.error": "משהו השתבש והבקשה לא נשלחה. נסו שוב.",
           "eyebrow.reviews": "ביקורות",
           "reviews.title": "ביקורות לקוחות",
           "reviews.lede": "מה לקוחות אומרים אחרי המעבר ל-Felix Labs",
@@ -3685,7 +3731,7 @@
           "footer.contact": "יצירת קשר ואודות",
           "footer.contactLink": "יצירת קשר",
           "footer.book": "קביעת הדגמה",
-          "footer.about": "עלינו",
+          "footer.about": "שאלות נפוצות",
           "footer.reviews": "ביקורות",
           "footer.team": "צוות",
           "footer.tech": "טכני",

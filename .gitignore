@@ -4,9 +4,13 @@ node_modules/
 # Local drafts / scratch
 .tmp/
 
+# Site build output
+projects/Felix Labs/deploy/dist/
+
 # Environment & secrets
 .env
 .env.*
+!.env.example
 *.pem
 *.key
 credentials.json

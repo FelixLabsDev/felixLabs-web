@@ -1,4 +1,4 @@
-import { Mesh, Program, Renderer, Triangle } from "https://esm.sh/ogl@1.0.11";
+import { Mesh, Program, Renderer, Triangle } from "../vendor/ogl.min.js";
 
 function hexToRgb(hex) {
   var m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);

@@ -1,0 +1,28 @@
+{$SITE_DOMAIN} {
+	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		-Server
+	}
+
+	handle /api/* {
+		request_body {
+			max_size 16KB
+		}
+		reverse_proxy mailer:3000
+	}
+
+	handle {
+		root * /srv/site
+		@revalidate path / *.html *.js *.css *.json *.txt *.xml
+		header @revalidate Cache-Control "no-cache"
+		@media not path / *.html *.js *.css *.json *.txt *.xml
+		header @media Cache-Control "public, max-age=2592000"
+		file_server
+	}
+}

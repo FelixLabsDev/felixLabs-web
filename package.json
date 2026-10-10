@@ -2,6 +2,7 @@
   "name": "felix-labs-workspace",
   "private": true,
   "scripts": {
-    "dev": "npx --yes serve \"projects/Felix Labs\" -l 8080"
+    "dev": "node \"projects/Felix Labs/deploy/build.mjs\" --watch --serve",
+    "build": "node \"projects/Felix Labs/deploy/build.mjs\""
   }
 }
