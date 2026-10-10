@@ -1,8 +1,7 @@
 name: Deploy site
 
+# Linux-server deploy. The live site is on Vercel; run this only if you go back to the VM.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 concurrency:

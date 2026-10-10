@@ -4,5 +4,8 @@
   "scripts": {
     "dev": "node \"projects/Felix Labs/deploy/build.mjs\" --watch --serve",
     "build": "node \"projects/Felix Labs/deploy/build.mjs\""
+  },
+  "dependencies": {
+    "nodemailer": "^10.1.0"
   }
 }

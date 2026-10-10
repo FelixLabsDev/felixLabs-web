@@ -14,7 +14,11 @@ const ALWAYS = ["assets/vendor", "assets/favicon.svg", "assets/og-image.jpg"];
 const EXTERNAL = /^(?:[a-z]+:|\/\/|#|\/)/i;
 
 async function build() {
-  const siteUrl = (process.env.SITE_URL || "").replace(/\/+$/, "");
+  const siteUrl = (
+    process.env.SITE_URL ||
+    (process.env.VERCEL_ENV === "production" ? "https://www.felixlabs.net" : "") ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "")
+  ).replace(/\/+$/, "");
   let html = await readFile(path.join(SRC, PAGE), "utf8");
   html = siteUrl ? html.replaceAll("{{SITE_URL}}", siteUrl) : html.split("\n").filter((line) => !line.includes("{{SITE_URL}}")).join("\n");
 

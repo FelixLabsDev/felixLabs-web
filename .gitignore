@@ -3,6 +3,7 @@ node_modules/
 
 # Local drafts / scratch
 .tmp/
+.vercel/
 
 # Site build output
 projects/Felix Labs/deploy/dist/
